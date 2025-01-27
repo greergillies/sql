@@ -107,7 +107,8 @@ FROM customer_purchases cp
 INNER JOIN customer c
 	ON cp.customer_id = c.customer_id
 GROUP BY c.customer_id
-HAVING total_spend > 2000;
+HAVING total_spend > 2000
+ORDER BY c.customer_last_name, c.customer_first_name; --forgot this line sorry!
 
 
 
