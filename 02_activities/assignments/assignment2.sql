@@ -112,8 +112,32 @@ HINT: There are a possibly a few ways to do this query, but if you're struggling
 3) Query the second temp table twice, once for the best day, once for the worst day, 
 with a UNION binding them. */
 
+DROP TABLE IF EXISTS market_sales;
+--make the TABLE
+CREATE TEMP TABLE market_sales AS
+--definition of the TABLE
+SELECT market_date, sum(cost_to_customer_per_qty * quantity) as sales_per_date
+FROM customer_purchases
+GROUP BY market_date;
 
 
+SELECT market_date, sales_per_date, max_sales as [row_number], 'max' as sales_order
+FROM(
+	SELECT market_date, sales_per_date,
+	ROW_NUMBER() OVER(ORDER BY sales_per_date DESC) as max_sales
+	FROM market_sales
+) x
+WHERE max_sales = 1
+
+UNION
+
+SELECT *, 'min' as sales_order
+FROM(
+	SELECT market_date, sales_per_date,
+	ROW_NUMBER() OVER(ORDER BY sales_per_date ASC) as min_sales
+	FROM market_sales
+) y
+WHERE min_sales = 1;
 
 /* SECTION 3 */
 
@@ -122,12 +146,31 @@ with a UNION binding them. */
 customer on record. How much money would each vendor make per product? 
 Show this by vendor_name and product name, rather than using the IDs.
 
+
 HINT: Be sure you select only relevant columns and rows. 
 Remember, CROSS JOIN will explode your table rows, so CROSS JOIN should likely be a subquery. 
 Think a bit about the row counts: how many distinct vendors, product names are there (x)?
 How many customers are there (y). 
 Before your final group by you should have the product of those two queries (x*y).  */
 
+DROP TABLE IF EXISTS five_items;
+CREATE TEMP TABLE five_items AS
+
+SELECT DISTINCT vendor_name, product_name, original_price*5 as five_price
+FROM vendor_inventory vi
+	INNER JOIN product p
+	ON p.product_id = vi.product_id
+	INNER JOIN vendor v
+	ON v.vendor_id = vi.vendor_id;
+	
+
+SELECT 
+vendor_name, product_name, sum(five_price) as final_price
+FROM
+	(SELECT * FROM
+	five_items 
+	CROSS JOIN customer)
+GROUP BY vendor_name, product_name;
 
 
 -- INSERT
@@ -135,18 +178,30 @@ Before your final group by you should have the product of those two queries (x*y
 This table will contain only products where the `product_qty_type = 'unit'`. 
 It should use all of the columns from the product table, as well as a new column for the `CURRENT_TIMESTAMP`.  
 Name the timestamp column `snapshot_timestamp`. */
+DROP TABLE IF EXISTS product_units;
+CREATE TEMP TABLE product_units AS
 
+SELECT *, CURRENT_TIMESTAMP as snapshot_timestamp
+FROM product
+WHERE product_qty_type = 'unit';
+
+select* from product_units;
 
 
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
-
+INSERT INTO product_units
+VALUES(999, 'bananas', 'bunch', '1', 'unit', CURRENT_TIMESTAMP);
 
 
 -- DELETE
 /* 1. Delete the older record for the whatever product you added. 
 
 HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
+
+DELETE FROM product_units -- finally, run with this
+--SELECT * FROM product_expanded --first; remove when running w/ delete
+WHERE product_id=999; 
 
 
 
@@ -156,6 +211,7 @@ First, add a new column, current_quantity to the table using the following synta
 
 ALTER TABLE product_units
 ADD current_quantity INT;
+
 
 Then, using UPDATE, change the current_quantity equal to the last quantity value from the vendor_inventory details.
 
@@ -167,6 +223,31 @@ Finally, make sure you have a WHERE statement to update the right row,
 	you'll need to use product_units.product_id to refer to the correct row within the product_units table. 
 When you have all of these components, you can run the update statement. */
 
+ALTER TABLE product_units
+ADD current_quantity INT ;
+
+DROP TABLE IF EXISTS last_known_quant;
+CREATE TEMP TABLE last_known_quant AS
+
+SELECT quantity as last_known, product_id
+
+FROM(
+	SELECT DISTINCT quantity, product_id,
+	dense_rank() OVER(PARTITION by product_id ORDER BY market_date DESC) as quant_info
+	FROM vendor_inventory) x 
+where x.quant_info = 1;
 
 
+--just to view the nulls and where they are, not a necessary step
+SELECT * FROM 
+	product_units p 
+	left join last_known_quant ln
+	ON p.product_id = ln.product_id;
+
+UPDATE product_units AS p
+SET current_quantity = COALESCE((
+SELECT last_known
+FROM last_known_quant AS lkn
+	WHERE lkn.product_id = p.product_id)
+, 0);
 
