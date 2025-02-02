@@ -53,9 +53,11 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
+
 ```
 Your answer...
 ```
+Type one will over-write the previous entry (so each employee will only ever have one row), and type 2 will just update the rows (so each employee can have multiple rows.)
 
 ***
 
