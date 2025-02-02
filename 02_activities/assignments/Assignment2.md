@@ -44,18 +44,25 @@ Additionally, include a date table.
 There are several tools online you can use, I'd recommend [Draw.io](https://www.drawio.com/) or [LucidChart](https://www.lucidchart.com/pages/).
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
+![Slide1](https://github.com/user-attachments/assets/87e7e78d-5004-4e44-900d-8dbeebfa30d6)
+
+
 
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+![Slide2](https://github.com/user-attachments/assets/bd9c5451-5be4-4823-acc7-7ea5e55f574f)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
+![Slide3](https://github.com/user-attachments/assets/75b7f8ba-ffce-4afa-8901-493df237e787)
+
 ```
 Your answer...
 ```
+Type one will over-write the previous entry (so each employee will only ever have one row), and type 2 will just update the rows (so each employee can have multiple rows.)
 
 ***
 
@@ -115,7 +122,10 @@ You can either display all rows in the customer_purchases table, with the counte
 #### UNION
 1. Using a UNION, write a query that displays the market dates with the highest and lowest total sales.
 
-**HINT**: There are a possibly a few ways to do this query, but if you're struggling, try the following: 1) Create a CTE/Temp Table to find sales values grouped dates; 2) Create another CTE/Temp table with a rank windowed function on the previous query to create "best day" and "worst day"; 3) Query the second temp table twice, once for the best day, once for the worst day, with a UNION binding them. 
+**HINT**: There are a possibly a few ways to do this query, but if you're struggling, try the following: 
+1) Create a CTE/Temp Table to find sales values grouped dates; 
+2) Create another CTE/Temp table with a rank windowed function on the previous query to create "best day" and "worst day"; 
+3) Query the second temp table twice, once for the best day, once for the worst day, with a UNION binding them. 
 
 ***
 
@@ -184,3 +194,13 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 ```
 Your thoughts...
 ```
+
+Behind every neural net and AI is an army of underpaid laborers from overseas. 
+These systems cannot be made without exploiting workers (like with clothing manufacturing). 
+Very broadly, I think that if you want to use these systems, you need to make a moral exception for them rather than trying to justify their use.
+( e.g., "I am willingly participating in the exploitation of foreign workers because I want clothes" vs. 
+"It's ethical to me to purchase this fast fashion t-shirt because I do not have enough money to buy this other one". Your own personal circumstance does not change the exploitation of the worker.) 
+Essentially, shouldering the blame rather than rationalizing your way out of feeling it. 
+I think if you do acknowledge these things, you are less likely to use them (for example, I don't use chatgpt or other gen ai products,
+even if they would made certain aspects of my job easier.) I think with systems like gen ai, people want to have their cake and eat it too.
+Meaning they want access to whatever product but also not feel any guilt related to consuming that product. 
