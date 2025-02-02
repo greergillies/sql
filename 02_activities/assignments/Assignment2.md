@@ -44,15 +44,20 @@ Additionally, include a date table.
 There are several tools online you can use, I'd recommend [Draw.io](https://www.drawio.com/) or [LucidChart](https://www.lucidchart.com/pages/).
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
+![Slide1](https://github.com/user-attachments/assets/87e7e78d-5004-4e44-900d-8dbeebfa30d6)
+
+
 
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+![Slide2](https://github.com/user-attachments/assets/bd9c5451-5be4-4823-acc7-7ea5e55f574f)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
+![Slide3](https://github.com/user-attachments/assets/75b7f8ba-ffce-4afa-8901-493df237e787)
 
 ```
 Your answer...
