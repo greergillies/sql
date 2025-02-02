@@ -187,3 +187,13 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 ```
 Your thoughts...
 ```
+
+Behind every neural net and AI is an army of underpaid laborers from overseas. 
+These systems cannot be made without exploiting workers (like with clothing manufacturing). 
+Very broadly, I think that if you want to use these systems, you need to make a moral exception for them rather than trying to justify their use.
+( e.g., "I am willingly participating in the exploitation of foreign workers because I want clothes" vs. 
+"It's ethical to me to purchase this fast fashion t-shirt because I do not have enough money to buy this other one". Your own personal circumstance does not change the exploitation of the worker.) 
+Essentially, shouldering the blame rather than rationalizing your way out of feeling it. 
+I think if you do acknowledge these things, you are less likely to use them (for example, I don't use chatgpt or other gen ai products,
+even if they would made certain aspects of my job easier.) I think with systems like gen ai, people want to have their cake and eat it too.
+Meaning they want access to whatever product but also not feel any guilt related to consuming that product. 
